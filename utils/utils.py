@@ -1,5 +1,19 @@
+import os
 import numpy as np
 from scipy.stats import norm
+
+class RunningAverage:
+    """Computes and stores the average
+    """
+    def __init__(self):
+        self.count = 0
+        self.sum = 0
+        self.avg = 0
+
+    def update(self, value, n=1):
+        self.count += n
+        self.sum += value * n
+        self.avg = self.sum / self.count
 
 def num2vect(x, bin_range, bin_step, sigma):
     """
@@ -66,3 +80,14 @@ def crop_center(data, out_sp):
     else:
         raise ('Wrong dimension! dim=%d.' % nd)
     return data_crop
+
+def absoluteFilePaths(dirpath):
+    ### dirpath has to be absolute path ####
+
+    list_realpaths = []
+    filenames = os.listdir(dirpath)
+
+    for f in filenames:
+        list_realpaths.append(os.path.abspath(os.path.join(dirpath, f)))
+
+    return list_realpaths
